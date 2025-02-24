@@ -1,5 +1,7 @@
 package ru.krupnoveo.edu.gateway.service.impl;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,13 +21,16 @@ import java.util.UUID;
 
 @Service
 public class BarbershopServiceClientImpl implements BarbershopServiceClient {
-    private static final String BARBERSHOP_SERVICE_URL = "http://localhost:8081";
 
     private final WebClient client;
 
-    public BarbershopServiceClientImpl() {
+    public BarbershopServiceClientImpl(
+            @Value("${barbershop.service.host}") String barbershopServiceHost,
+            @Value("${barbershop.service.port}") String barbershopServicePort
+    ) {
+        String barbershopServiceUrl = "http://" + barbershopServiceHost + ":" + barbershopServicePort;
         this.client = WebClient.builder()
-                .baseUrl(BARBERSHOP_SERVICE_URL)
+                .baseUrl(barbershopServiceUrl)
                 .build();
     }
 

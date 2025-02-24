@@ -1,5 +1,6 @@
 package ru.krupnoveo.edu.gateway.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -15,13 +16,15 @@ import java.util.UUID;
 @Service
 public class RecordServiceClientImpl implements RecordServiceClient {
 
-    private static final String RECORD_SERVICE_URL = "http://localhost:8082";
-
     private final WebClient client;
 
-    public RecordServiceClientImpl() {
+    public RecordServiceClientImpl(
+            @Value("${record.service.host}") String recordServiceHost,
+            @Value("${record.service.port}") String recordServicePort
+    ) {
+        String recordServiceUrl = "http://" + recordServiceHost + ":" + recordServicePort;
         this.client = WebClient.builder()
-                .baseUrl(RECORD_SERVICE_URL)
+                .baseUrl(recordServiceUrl)
                 .build();
     }
 

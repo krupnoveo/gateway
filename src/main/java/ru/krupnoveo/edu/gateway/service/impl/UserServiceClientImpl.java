@@ -1,5 +1,6 @@
 package ru.krupnoveo.edu.gateway.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,15 @@ import java.util.UUID;
 @Service
 public class UserServiceClientImpl implements UserServiceClient {
 
-    private static final String USER_SERVICE_URL = "http://localhost:8080";
-
-
     private final WebClient webClient;
 
-    public UserServiceClientImpl() {
+    public UserServiceClientImpl(
+            @Value("${user.service.host}") String userServiceHost,
+            @Value("${user.service.port}") String userServicePort
+    ) {
+        String userServiceUrl = "http://" + userServiceHost + ":" + userServicePort;
         this.webClient = WebClient.builder()
-                .baseUrl(USER_SERVICE_URL)
+                .baseUrl(userServiceUrl)
                 .build();
     }
 

@@ -11,4 +11,8 @@ public record BarbershopResponse(
         @JsonProperty("phone_number") String phoneNumber,
         @JsonProperty("working_time") String workingTime
 ) {
+
+    public BarbershopResponse {
+
+    }
 }
